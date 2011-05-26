@@ -1,6 +1,8 @@
 class Simulator
+  attr_reader :events
 
   def initialize
+    @current_month_index = 0
     @events = Hash.new { |hash, key| hash[key] = [] }
   end
 

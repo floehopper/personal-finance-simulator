@@ -1,3 +1,5 @@
+require "account"
+
 class Party
   def initialize(name, account = Account.new)
     @name, @account = name, account
