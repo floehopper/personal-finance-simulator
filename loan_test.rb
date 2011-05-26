@@ -14,8 +14,8 @@ end
 class LoanTest < Test::Unit::TestCase
   def setup
     @simulator = Simulator.new
-    @lender = Party.new("lender", Account.new(0))
-    @borrower = Party.new("borrower", Account.new(0))
+    @lender = Party.new("lender", Account.new)
+    @borrower = Party.new("borrower", Account.new)
     @loan = Loan.new(@simulator, @lender, @borrower, 10000000, 300, 6.percent)
     @simulator.schedule_at(0) { @loan.draw_down }
   end

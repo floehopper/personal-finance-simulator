@@ -1,7 +1,7 @@
 class Account
   attr_reader :balance
 
-  def initialize(initial_balance_in_pence)
+  def initialize(initial_balance_in_pence = 0)
     @balance = initial_balance_in_pence
   end
 
