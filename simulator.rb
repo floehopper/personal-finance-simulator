@@ -1,5 +1,4 @@
 class Simulator
-  attr_reader :current_month_index
 
   def initialize
     @events = Hash.new { |hash, key| hash[key] = [] }
@@ -10,7 +9,7 @@ class Simulator
   end
 
   def schedule_in(number_of_months, &block)
-    schedule_at(current_month_index + number_of_months, &block)
+    schedule_at(@current_month_index + number_of_months, &block)
   end
 
   def schedule_each(month_offsets, &block)
@@ -20,8 +19,8 @@ class Simulator
   end
 
   def play(month_range)
-    @current_month_index = month_range.first
-    while @current_month_index <= month_range.last do
+    month_range.each do |month_index|
+      @current_month_index = month_index
       @events[@current_month_index].each do |event|
         event.call(@current_month_index)
       end
