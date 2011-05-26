@@ -1,7 +1,4 @@
-require "rubygems"
-require "active_support"
-
-require "test/unit"
+require "test_helper"
 
 require "simulator"
 require "account"
