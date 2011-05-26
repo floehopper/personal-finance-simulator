@@ -5,17 +5,17 @@ class Simulator
     @events = Hash.new { |hash, key| hash[key] = [] }
   end
 
-  def at(month_index, &block)
+  def schedule_at(month_index, &block)
     @events[month_index] << block.to_proc
   end
 
-  def in(number_of_months, &block)
-    at(current_month_index + number_of_months, &block)
+  def schedule_in(number_of_months, &block)
+    schedule_at(current_month_index + number_of_months, &block)
   end
 
-  def each(month_offsets, &block)
+  def schedule_each(month_offsets, &block)
     month_offsets.each do |month_offset|
-      self.in(month_offset, &block)
+      schedule_in(month_offset, &block)
     end
   end
 

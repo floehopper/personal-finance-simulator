@@ -4,7 +4,7 @@ class Transfer
   end
 
   def complete
-    @source_party.account.debit(@amount_in_pence)
-    @destination_party.account.credit(@amount_in_pence)
+    @source_party.debit(@amount_in_pence)
+    @destination_party.credit(@amount_in_pence)
   end
 end
