@@ -10,8 +10,8 @@ require "percentage"
 class LoanTest < Test::Unit::TestCase
   def setup
     @simulator = Simulator.new
-    @lender = Party.new("lender", Account.new)
-    @borrower = Party.new("borrower", Account.new)
+    @lender = Party.new("lender")
+    @borrower = Party.new("borrower")
     @loan = Loan.new(@simulator, @lender, @borrower, Money.parse("100,000.00"), Duration.in_years(25), Percentage.new(6))
     @simulator.schedule_at(0) { @loan.draw_down }
   end

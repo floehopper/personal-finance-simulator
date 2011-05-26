@@ -1,5 +1,5 @@
 class Party
-  def initialize(name, account)
+  def initialize(name, account = Account.new)
     @name, @account = name, account
   end
 
