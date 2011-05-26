@@ -3,12 +3,12 @@ class Party
     @name, @account = name, account
   end
 
-  def credit(amount_in_pence)
-    @account.credit(amount_in_pence)
+  def credit(amount)
+    @account.credit(amount)
   end
 
-  def debit(amount_in_pence)
-    @account.debit(amount_in_pence)
+  def debit(amount)
+    @account.debit(amount)
   end
 
   def cash_position
