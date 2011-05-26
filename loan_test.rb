@@ -4,19 +4,15 @@ require "simulator"
 require "account"
 require "party"
 require "loan"
-
-class Fixnum
-  def percent
-    self / 100.0
-  end
-end
+require "duration"
+require "percentage"
 
 class LoanTest < Test::Unit::TestCase
   def setup
     @simulator = Simulator.new
     @lender = Party.new("lender", Account.new)
     @borrower = Party.new("borrower", Account.new)
-    @loan = Loan.new(@simulator, @lender, @borrower, Money.parse("100,000.00"), 300, 6.percent)
+    @loan = Loan.new(@simulator, @lender, @borrower, Money.parse("100,000.00"), Duration.in_years(25), Percentage.new(6))
     @simulator.schedule_at(0) { @loan.draw_down }
   end
 
