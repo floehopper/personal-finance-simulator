@@ -27,13 +27,13 @@ class RepaymentTrackerLoanTest < Test::Unit::TestCase
     assert_equal @amount - @expected_low_monthly_payment, @borrower.cash_position
   end
 
-  def test_after_last_monthly_payment_before_base_rate_rise
+  def test_after_monthly_payment_immediately_before_base_rate_rise
     @simulator.play(0..150)
     assert_equal -@amount + (@expected_low_monthly_payment * 150), @lender.cash_position
     assert_equal @amount - (@expected_low_monthly_payment * 150), @borrower.cash_position
   end
 
-  def test_after_first_monthly_payment_after_base_rate_rise
+  def test_after_monthly_payment_immediately_after_base_rate_rise
     @simulator.play(0..151)
     assert_equal -@amount + (@expected_low_monthly_payment * 150) + @expected_high_monthly_payment, @lender.cash_position
     assert_equal @amount - (@expected_low_monthly_payment * 150) - @expected_high_monthly_payment, @borrower.cash_position
