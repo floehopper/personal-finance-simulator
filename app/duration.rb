@@ -12,6 +12,10 @@ class Duration
     @number_of_months = number_of_months
   end
 
+  def -(number_of_months)
+    self.class.new(@number_of_months - number_of_months)
+  end
+
   def to_months
     @number_of_months
   end
