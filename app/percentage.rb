@@ -1,5 +1,3 @@
-require "duration"
-
 class Percentage
   def initialize(percentage)
     @percentage = percentage

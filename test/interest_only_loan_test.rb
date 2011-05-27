@@ -1,12 +1,5 @@
 require "test_helper"
 
-require "simulator"
-require "party"
-require "loan"
-require "duration"
-require "percentage"
-require "repayment_strategy"
-
 class InterestOnlyLoanTest < Test::Unit::TestCase
   def setup
     @simulator = Simulator.new

@@ -1,6 +1,3 @@
-require "transfer"
-require "duration"
-
 class Loan
 
   def initialize(simulator, lender, borrower, principal, term, rate, repayment_strategy)
