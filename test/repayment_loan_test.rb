@@ -6,7 +6,7 @@ class RepaymentLoanTest < Test::Unit::TestCase
     @lender = Party.new("lender")
     @borrower = Party.new("borrower")
     @amount = Money.parse("100,000.00")
-    loan = Loan.new(@simulator, @lender, @borrower, @amount, Duration.in_years(25), Percentage.new(6), RepaymentStrategy::Standard)
+    loan = Loan.new(@simulator, @lender, @borrower, @amount, Duration.in_years(25), InterestRate::Simple.new(Percentage.new(6)), RepaymentStrategy::Standard)
     @simulator.schedule_at(0) { loan.draw_down }
     @expected_monthly_payment = Money.parse("644.30")
   end
