@@ -8,7 +8,7 @@ class InterestOnlyTrackerLoanTest < Test::Unit::TestCase
     @borrower_account = Account.new
     base_rate = InterestRate::Simple.new(Percentage.new(4))
     rate = InterestRate::Tracker.new(base_rate, Percentage.new(2))
-    loan = Loan.new(@simulator, @lender_account, @borrower_account, @amount, rate, Term.in_years(25), RepaymentStrategy::InterestOnly)
+    loan = Loan.new(@simulator, @lender_account, @borrower_account, @amount, rate, Term.in_years(25), PaymentCalculator::InterestOnly)
     @simulator.schedule_at(0) { loan.draw_down }
     @simulator.schedule_at(151) { base_rate.increase_by(Percentage.new(3)) }
     @expected_low_monthly_payment = Money.parse("500.00")

@@ -1,4 +1,4 @@
-module RepaymentStrategy
+module PaymentCalculator
 
   class InterestOnly
 
@@ -20,7 +20,7 @@ module RepaymentStrategy
 
   end
 
-  class Standard < InterestOnly
+  class Repayment < InterestOnly
 
     def initialize(principal_account, rate, term)
       super
