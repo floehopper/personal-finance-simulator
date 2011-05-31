@@ -37,7 +37,7 @@ module RepaymentStrategy
     end
 
     def update
-      @total_monthly_payment = (@principal_account.balance * @rate.per_month.to_f) / (1 - (1 + @rate.per_month.to_f) ** -@term.in_months)
+      @total_monthly_payment = monthly_interest_payment / (1 - (1 + @rate.per_month.to_f) ** -@term.in_months)
     end
 
   end
