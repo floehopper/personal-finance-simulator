@@ -1,4 +1,4 @@
-class Duration
+class Term
 
   NUMBER_OF_MONTHS_IN_YEAR = 12
 
@@ -12,11 +12,11 @@ class Duration
     @number_of_months = number_of_months
   end
 
-  def -(number_of_months)
-    self.class.new(@number_of_months - number_of_months)
+  def reduce_months_by(number_of_months)
+    @number_of_months -= number_of_months
   end
 
-  def to_months
+  def in_months
     @number_of_months
   end
 end

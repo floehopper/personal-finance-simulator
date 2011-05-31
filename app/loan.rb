@@ -1,33 +1,25 @@
 class Loan
 
-  def initialize(simulator, lender, borrower, principal, term, rate, repayment_strategy_class)
-    @simulator, @lender, @borrower, @principal, @term, @rate, @repayment_strategy_class = simulator, lender, borrower, principal, term, rate, repayment_strategy_class
+  def initialize(simulator, lender_account, borrower_account, amount, rate, term, repayment_strategy_class)
+    @simulator, @lender_account, @borrower_account, @rate, @term = simulator, lender_account, borrower_account, rate, term
+    @principal_account = Account.new(amount)
+    @repayment_strategy = repayment_strategy_class.new(@principal_account, @rate, @term)
   end
 
   def draw_down
-    Transfer.new(@lender, @borrower, @principal).complete
-    @owed = @principal
-    @remaining_term = @term
-    update
-    @rate.add_observer(self)
-    @simulator.schedule_each(1..@term.to_months) { process_monthly_payment }
-    @simulator.schedule_in(@term.to_months) { process_principal_repayment }
+    Transfer.new(@lender_account, @borrower_account, @principal_account.balance).complete
+    @simulator.schedule_each(1..@term.in_months) { process_monthly_payment }
+    @simulator.schedule_in(@term.in_months) { process_principal_repayment }
   end
 
   def process_monthly_payment
-    interest_payment = @owed * @rate.per_month.to_f
-    principal_repayment = @repayment_strategy.monthly_principal_repayment(interest_payment)
-    @owed -= principal_repayment
-    @remaining_term -= 1
-    Transfer.new(@borrower, @lender, principal_repayment + interest_payment).complete
+    Transfer.new(@borrower_account, @lender_account, @repayment_strategy.total_monthly_payment).complete
+    @principal_account.debit(@repayment_strategy.monthly_principal_repayment)
+    @term.reduce_months_by(1)
   end
 
   def process_principal_repayment
-    Transfer.new(@borrower, @lender, @owed).complete
-  end
-
-  def update
-    @repayment_strategy = @repayment_strategy_class.new(@owed, @remaining_term, @rate)
+    Transfer.new(@borrower_account, @lender_account, @principal_account.balance).complete
   end
 
 end

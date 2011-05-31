@@ -12,7 +12,7 @@ class Percentage
   end
 
   def per_month
-    self.class.new(@number_of_percent.to_f / Duration::NUMBER_OF_MONTHS_IN_YEAR)
+    self.class.new(@number_of_percent.to_f / Term::NUMBER_OF_MONTHS_IN_YEAR)
   end
 
   def to_f

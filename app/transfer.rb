@@ -1,10 +1,10 @@
 class Transfer
-  def initialize(source_party, destination_party, amount)
-    @source_party, @destination_party, @amount = source_party, destination_party, amount
+  def initialize(source_account, destination_account, amount)
+    @source_account, @destination_account, @amount = source_account, destination_account, amount
   end
 
   def complete
-    @source_party.debit(@amount)
-    @destination_party.credit(@amount)
+    @source_account.debit(@amount)
+    @destination_account.credit(@amount)
   end
 end
