@@ -26,6 +26,7 @@ class Simulator
       @events[@current_month_index].each do |event|
         event.call(@current_month_index)
       end
+      yield(@current_month_index) if block_given?
       @current_month_index += 1
     end
   end
