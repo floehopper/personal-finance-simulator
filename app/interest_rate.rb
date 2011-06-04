@@ -29,7 +29,7 @@ module InterestRate
 
   class Tracker < Simple
 
-    def initialize(base_rate, offset_percentage = Percentage.new(0))
+    def initialize(base_rate, offset_percentage = 0.percent)
       @base_rate, @offset_percentage = base_rate, offset_percentage
       @base_rate.add_observer(self)
     end

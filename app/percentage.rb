@@ -1,5 +1,11 @@
 class Percentage
 
+  module InstanceMethods
+    def percent
+      Percentage.new(self.to_f)
+    end
+  end
+
   attr_reader :number_of_percent
   protected :number_of_percent
 
@@ -19,3 +25,5 @@ class Percentage
     @number_of_percent.to_f / 100
   end
 end
+
+[Bignum, Fixnum, Float, String].each { |klass| klass.send(:include, Percentage::InstanceMethods) }

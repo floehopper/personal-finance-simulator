@@ -6,11 +6,11 @@ class RepaymentTrackerLoanTest < Test::Unit::TestCase
     @amount = Money.parse("100,000.00")
     @lender_account = Account.new
     @borrower_account = Account.new
-    base_rate = InterestRate::Simple.new(Percentage.new(4))
-    rate = InterestRate::Tracker.new(base_rate, Percentage.new(2))
+    base_rate = InterestRate::Simple.new(4.percent)
+    rate = InterestRate::Tracker.new(base_rate, 2.percent)
     loan = Loan.new(@simulator, @lender_account, @borrower_account, @amount, rate, Term.in_years(25), PaymentCalculator::Repayment)
     @simulator.schedule_at(0) { loan.draw_down }
-    @simulator.schedule_at(151) { base_rate.increase_by(Percentage.new(3)) }
+    @simulator.schedule_at(151) { base_rate.increase_by(3.percent) }
     @expected_low_monthly_payment = Money.parse("644.30")
     @expected_high_monthly_payment = Money.parse("755.33")
   end
