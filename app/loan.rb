@@ -1,5 +1,15 @@
 class Loan
 
+  class << self
+    def interest_only(simulator, lender_account, borrower_account, amount, rate, term)
+      new(simulator, lender_account, borrower_account, amount, rate, term, PaymentCalculator::InterestOnly)
+    end
+
+    def repayment(simulator, lender_account, borrower_account, amount, rate, term)
+      new(simulator, lender_account, borrower_account, amount, rate, term, PaymentCalculator::Repayment)
+    end
+  end
+
   def initialize(simulator, lender_account, borrower_account, amount, rate, term, payment_calculator_class)
     @simulator, @lender_account, @borrower_account, @rate, @term = simulator, lender_account, borrower_account, rate, term
     @principal_account = Account.new(amount)
