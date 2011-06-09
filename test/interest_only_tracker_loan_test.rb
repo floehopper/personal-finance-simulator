@@ -7,12 +7,9 @@ class InterestOnlyTrackerLoanTest < Test::Unit::TestCase
     @lender_account = Account.new
     @borrower_account = Account.new
     term = Term.new(@clock, 25 * 12, 1)
-    principal_account = Account.new(@amount)
     @base_rate = InterestRate::Simple.new(4.percent)
     interest_rate = InterestRate::Tracker.new(@base_rate, 2.percent)
-    payment_basis = Loan::InterestOnly.new(principal_account, interest_rate, term)
-    loan = Loan.new(@lender_account, @borrower_account, principal_account, payment_basis)
-    schedule = Loan::Schedule.new(loan, term)
+    @loan = Loan::InterestOnly.new(@lender_account, @borrower_account, @amount, interest_rate, term)
     @expected_low_monthly_payment = Money.parse("500.00")
     @expected_high_monthly_payment = Money.parse("750.00")
   end

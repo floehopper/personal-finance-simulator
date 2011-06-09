@@ -9,13 +9,10 @@ clock = Clock.new
 scheduler = Scheduler.new(clock)
 lender_account = Account.new
 borrower_account = Account.new
-principal_acccount = Account.new(Money.parse("220,000.00"))
+term = Term.new(clock, 22 * 12, 1)
 base_rate = InterestRate::Simple.new(0.5.percent)
 interest_rate = InterestRate::Tracker.new(base_rate, 0.35.percent)
-term = Term.new(clock, 22 * 12, 1)
-payment_basis = Loan::Repayment.new(principal_acccount, interest_rate, term)
-loan = Loan.new(lender_account, borrower_account, principal_acccount, payment_basis)
-schedule = Loan::Schedule.new(loan, term)
+loan = Loan::Repayment.new(lender_account, borrower_account, Money.parse("220,000.00"), interest_rate, term)
 
 data[0] = []
 scheduler.schedule_each(1..number_of_months_renting) { borrower_account.debit(monthly_rent) }
@@ -28,11 +25,9 @@ scheduler = Scheduler.new(clock)
 lender_account = Account.new
 borrower_account = Account.new
 principal_acccount = Account.new(Money.parse("220,000.00"))
-interest_rate = InterestRate::Simple.new(3.5.percent)
 term = Term.new(clock, (22 * 12) - number_of_months_renting, number_of_months_renting)
-payment_basis = Loan::Repayment.new(principal_acccount, interest_rate, term)
-loan = Loan.new(lender_account, borrower_account, principal_acccount, payment_basis)
-schedule = Loan::Schedule.new(loan, term)
+interest_rate = InterestRate::Simple.new(3.5.percent)
+loan = Loan::Repayment.new(lender_account, borrower_account, Money.parse("220,000.00"), interest_rate, term)
 
 data[1] = []
 scheduler.schedule_each(1..number_of_months_renting) { borrower_account.debit(monthly_rent) }
