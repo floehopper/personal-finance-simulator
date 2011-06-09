@@ -7,7 +7,7 @@ class RepaymentLoanTest < Test::Unit::TestCase
     @lender_account = Account.new
     @borrower_account = Account.new
     term = Term.new(@clock, 25 * 12, 1)
-    interest_rate = InterestRate::Simple.new(6.percent)
+    interest_rate = InterestRate.new(6.percent)
     @loan = Loan::Repayment.new(@lender_account, @borrower_account, @amount, interest_rate, term)
     @expected_monthly_payment = Money.parse("644.30")
   end

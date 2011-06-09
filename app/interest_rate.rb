@@ -1,33 +1,29 @@
 require "observer"
 
-module InterestRate
+class InterestRate
 
-  class Simple
+  include Observable
 
-    include Observable
-
-    def initialize(initial_percentage)
-      @percentage = initial_percentage
-    end
-
-    def increase_by(percentage_change)
-      unless percentage_change == 0
-        @percentage += percentage_change
-        changed
-        notify_observers
-      end
-    end
-
-    attr_reader :percentage
-    protected :percentage
-
-    def per_month
-      percentage.per_month
-    end
-
+  def initialize(initial_percentage)
+    @percentage = initial_percentage
   end
 
-  class Tracker < Simple
+  def increase_by(percentage_change)
+    unless percentage_change == 0
+      @percentage += percentage_change
+      changed
+      notify_observers
+    end
+  end
+
+  attr_reader :percentage
+  protected :percentage
+
+  def per_month
+    percentage.per_month
+  end
+
+  class Tracker < InterestRate
 
     def initialize(base_rate, offset_percentage = 0.percent)
       @base_rate, @offset_percentage = base_rate, offset_percentage

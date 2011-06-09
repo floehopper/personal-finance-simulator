@@ -10,7 +10,7 @@ scheduler = Scheduler.new(clock)
 lender_account = Account.new
 borrower_account = Account.new
 term = Term.new(clock, 22 * 12, 1)
-base_rate = InterestRate::Simple.new(0.5.percent)
+base_rate = InterestRate.new(0.5.percent)
 interest_rate = InterestRate::Tracker.new(base_rate, 0.35.percent)
 loan = Loan::Repayment.new(lender_account, borrower_account, Money.parse("220,000.00"), interest_rate, term)
 
@@ -26,7 +26,7 @@ lender_account = Account.new
 borrower_account = Account.new
 principal_acccount = Account.new(Money.parse("220,000.00"))
 term = Term.new(clock, (22 * 12) - number_of_months_renting, number_of_months_renting)
-interest_rate = InterestRate::Simple.new(3.5.percent)
+interest_rate = InterestRate.new(3.5.percent)
 loan = Loan::Repayment.new(lender_account, borrower_account, Money.parse("220,000.00"), interest_rate, term)
 
 data[1] = []
