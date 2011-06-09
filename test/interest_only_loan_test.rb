@@ -6,7 +6,7 @@ class InterestOnlyLoanTest < Test::Unit::TestCase
     @amount = Money.parse("100,000.00")
     @lender_account = Account.new
     @borrower_account = Account.new
-    term = Term.new(@clock, 25 * 12, 1)
+    term = Term.new(@clock, Duration.in_years(25), 1)
     interest_rate = InterestRate.new(6.percent)
     @loan = Loan::InterestOnly.new(@lender_account, @borrower_account, @amount, interest_rate, term)
     @expected_monthly_payment = Money.parse("500.00")

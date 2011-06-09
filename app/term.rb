@@ -2,23 +2,15 @@ require "observer"
 
 class Term
 
-  NUMBER_OF_MONTHS_IN_YEAR = 12
-
   include Observable
 
-  # class << self
-  #   def in_years(number_of_years)
-  #     new(number_of_years * NUMBER_OF_MONTHS_IN_YEAR)
-  #   end
-  # end
-
-  def initialize(clock, number_of_months, starts_at)
-    @clock, @number_of_months, @starts_at = clock, number_of_months, starts_at
+  def initialize(clock, duration, starts_at)
+    @clock, @duration, @starts_at = clock, duration, starts_at
     @clock.add_observer(self)
   end
 
   def finishes_at
-    @starts_at + @number_of_months
+    @starts_at + @duration.in_months
   end
 
   def first_month?
@@ -26,7 +18,7 @@ class Term
   end
 
   def months_remaining
-    [finishes_at - @clock.now, @number_of_months].min
+    [finishes_at - @clock.now, @duration.in_months].min
   end
 
   def in_progress?
