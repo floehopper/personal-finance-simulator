@@ -5,35 +5,39 @@ data = []
 number_of_months_renting = 12
 monthly_rent = Money.parse("1,000.00")
 
-simulator = Simulator.new
+clock = Clock.new
+scheduler = Scheduler.new(clock)
 lender_account = Account.new
 borrower_account = Account.new
+principal_acccount = Account.new(Money.parse("220,000.00"))
 base_rate = InterestRate::Simple.new(0.5.percent)
 interest_rate = InterestRate::Tracker.new(base_rate, 0.35.percent)
-loan = Loan.repayment(simulator, lender_account, borrower_account, Money.parse("220,000.00"), interest_rate, Term.in_years(22))
+term = Term.new(clock, 22 * 12, 1)
+payment_basis = Loan::Repayment.new(principal_acccount, interest_rate, term)
+loan = Loan.new(lender_account, borrower_account, principal_acccount, payment_basis)
+schedule = Loan::Schedule.new(loan, term)
 
 data[0] = []
-simulator.schedule_at(0) { loan.draw_down }
-simulator.schedule_each(0...number_of_months_renting) { borrower_account.debit(monthly_rent) }
-simulator.play(0..300) do |month_index|
-  data[0] << [month_index, borrower_account.balance.to_f]
-end
+scheduler.schedule_each(1..number_of_months_renting) { borrower_account.debit(monthly_rent) }
+scheduler.schedule_each(1..(25 * 12)) { data[0] << [clock.now, borrower_account.balance.to_f] }
+301.times { clock.tick }
 
 
-simulator = Simulator.new
+clock = Clock.new
+scheduler = Scheduler.new(clock)
 lender_account = Account.new
 borrower_account = Account.new
+principal_acccount = Account.new(Money.parse("220,000.00"))
 interest_rate = InterestRate::Simple.new(3.5.percent)
-term = Term.in_years(22)
-term.reduce_months_by(number_of_months_renting)
-loan = Loan.repayment(simulator, lender_account, borrower_account, Money.parse("220,000.00"), interest_rate, term)
+term = Term.new(clock, (22 * 12) - number_of_months_renting, number_of_months_renting)
+payment_basis = Loan::Repayment.new(principal_acccount, interest_rate, term)
+loan = Loan.new(lender_account, borrower_account, principal_acccount, payment_basis)
+schedule = Loan::Schedule.new(loan, term)
 
 data[1] = []
-simulator.schedule_each(0...number_of_months_renting) { borrower_account.debit(monthly_rent) }
-simulator.schedule_at(number_of_months_renting) { loan.draw_down }
-simulator.play(0..300) do |month_index|
-  data[1] << [month_index, borrower_account.balance.to_f]
-end
+scheduler.schedule_each(1..number_of_months_renting) { borrower_account.debit(monthly_rent) }
+scheduler.schedule_each(1..(25 * 12)) { data[1] << [clock.now, borrower_account.balance.to_f] }
+301.times { clock.tick }
 
 def flot_path(filename)
   File.expand_path("../../flot/#{filename}", __FILE__)
